@@ -1,6 +1,4 @@
 from django.db import models
-
-from django.db import models
 from django.contrib.auth.models import User
 
 class Student(models.Model):
@@ -71,7 +69,7 @@ class Register(models.Model):
 class Calender(models.Model):
     description = models.CharField(max_length=100)
     start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    end_date = models.DateTimeField() 
     year = models.IntegerField()
     term = models.IntegerField()
     def __str__(self):
