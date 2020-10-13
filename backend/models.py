@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Student(models.Model):
     id_student = models.OneToOneField(User, on_delete=models.CASCADE)
     frist_name = models.CharField(max_length=100)
@@ -44,25 +45,30 @@ class Group(models.Model):
     course_id = models.ForeignKey(Course,on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.name_group
+        return f"{self.name_group} {self.course_id}"
     
 
 class Subject(models.Model):
     id_subject = models.CharField(max_length=10)
-    subjectName = models.CharField(max_length=50)
+    subjectName = models.CharField(max_length=70)
     belongTo = models.CharField(max_length = 50)
     credit = models.IntegerField()
-    coureseCondition = models.TextField()
     name_group = models.ForeignKey(Group,on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.id_subject} {self.subjectName}"
+
+class SubjectCondition(models.Model):
+    subject = models.ForeignKey(Subject,on_delete=models.CASCADE)
+    condition = models.ManyToManyField(Subject,related_name='condition')
+    def __str__(self):
+        return f"{self.subject}"
 
 class Register(models.Model):
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE)
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     year = models.IntegerField()
     term = models.IntegerField()
-    grade = models.FloatField()
+    grade = models.FloatField(default=0.0)
     def __str__(self):
         return f"{self.subject} {self.student}"
 
